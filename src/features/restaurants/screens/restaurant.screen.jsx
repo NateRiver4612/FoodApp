@@ -1,9 +1,11 @@
-import React, { useState } from "react";
-import { StatusBar, Text, View, SafeAreaView, FlatList } from "react-native";
-import { Searchbar } from "react-native-paper";
+import React, { useState, useContext } from "react";
+import { RestaurantContext } from "../../../services/restaurants/restaurant.context";
+import { StatusBar, Text, View, SafeAreaView, FlatList, Pressable } from "react-native";
 import styled from "styled-components/native";
 import { Spacer } from "../../../components/spacer/spacer.component";
 import { RestaurantInfoCard } from "../components/restaurant-info-card/restaurant-info-card.component";
+import { SearchBar } from "../components/search/search.component";
+import { Spinner } from "../../../components/utility/spinner.component";
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
@@ -20,40 +22,48 @@ const RestaurantList = styled(FlatList).attrs({
 
 `
 
-export const RestaurantScreen = () => {
-  const [searchQuery, setSearchQuery] = useState("");
 
-  const onChangeSearch = (query) => setSearchQuery(query);
+export const RestaurantScreen = ({ navigation }) => {
+  const { restaurants, isLoading } = useContext(RestaurantContext)
 
-  const listItem = () => (
-    <Spacer position="bottom" size='large'>
-      <RestaurantInfoCard></RestaurantInfoCard>
-    </Spacer>
+  const listItem = (restaurant) => {
+    const { item } = restaurant
 
-  )
+    return (
+      <Pressable onPress={() => { navigation.navigate("RestaurantDetail", { restaurant: item }) }} >
+        <Spacer position="bottom" size='large'>
+          <RestaurantInfoCard restaurant={item}></RestaurantInfoCard>
+        </Spacer>
+      </Pressable>
+
+
+    )
+  }
+
+  console.log(isLoading)
+
 
   return (
     <SafeArea >
-      <SearchContainer >
-        <Searchbar
-          placeholder="Search"
-          onChangeText={onChangeSearch}
-          value={searchQuery}
-        />
-      </SearchContainer>
-      <RestaurantList
+      {
+        isLoading
+          ? (
+            <Spinner></Spinner>
+          )
+          :
+          <>
+            <SearchContainer >
+              <SearchBar
+              />
+            </SearchContainer>
+            <RestaurantList
 
-        keyExtractor={(item) => item.name}
-        data={[
-          { name: 1 },
-          { name: 2 },
-          { name: 3 },
-          { name: 4 },
-          { name: 5 },
-          { name: 6 },
-        ]}
-        renderItem={listItem}
-      />
+              keyExtractor={(item) => item.name}
+              data={restaurants}
+              renderItem={listItem}
+            />
+          </>
+      }
     </SafeArea>
   );
 }
