@@ -26,8 +26,6 @@ export const MapScreen = ({ navigation }) => {
   const [mapRegion, setMapRegion] = useState({});
   const { restaurants } = useContext(RestaurantContext);
 
-  console.log(restaurants);
-
   useEffect(() => {
     setMapRegion({
       latitude: lat,

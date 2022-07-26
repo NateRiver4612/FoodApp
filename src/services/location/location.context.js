@@ -9,8 +9,6 @@ export const LocationProvider = ({ children }) => {
   const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState(null);
 
-  console.log(locationSearch);
-
   const searchLocation = async (locationSearch) => {
     setLoading(true);
 

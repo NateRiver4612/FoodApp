@@ -6,6 +6,8 @@ import { Spacer } from "../../../components/spacer/spacer.component";
 import { RestaurantInfoCard } from "../components/restaurant-info-card/restaurant-info-card.component";
 import { SearchBar } from "../components/search/search.component";
 import { Spinner } from "../../../components/utility/spinner.component";
+import { FavouritesBar } from "../../../components/favourites/favourites-bar.component";
+import { FavouritesContext } from "../../../services/favourites/favourites.context";
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
@@ -25,6 +27,13 @@ const RestaurantList = styled(FlatList).attrs({
 
 export const RestaurantScreen = ({ navigation }) => {
   const { restaurants, isLoading } = useContext(RestaurantContext)
+  const [isFavouriteToggle, setFavouriteToggle] = useState(false)
+
+  const { favourites } = useContext(FavouritesContext)
+
+  const onFavouriteToggle = () => {
+    setFavouriteToggle(!isFavouriteToggle)
+  }
 
   const listItem = (restaurant) => {
     const { item } = restaurant
@@ -35,13 +44,10 @@ export const RestaurantScreen = ({ navigation }) => {
           <RestaurantInfoCard restaurant={item}></RestaurantInfoCard>
         </Spacer>
       </Pressable>
-
-
     )
   }
 
-  console.log(isLoading)
-
+  const onFavouriteNavigate = () => navigation.navigate
 
   return (
     <SafeArea >
@@ -53,9 +59,12 @@ export const RestaurantScreen = ({ navigation }) => {
           :
           <>
             <SearchContainer >
-              <SearchBar
+              <SearchBar isFavouriteToggle={isFavouriteToggle} onFavouriteToggle={onFavouriteToggle}
               />
             </SearchContainer>
+            {
+              isFavouriteToggle && (<FavouritesBar onNavigate={onFavouriteNavigate} favourites={favourites} />)
+            }
             <RestaurantList
 
               keyExtractor={(item) => item.name}

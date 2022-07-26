@@ -1,13 +1,13 @@
 import React from "react";
-import { Image, View } from "react-native";
+import { View } from "react-native";
 import { SvgXml } from "react-native-svg";
 import { Text } from "../../../../components/typography/text.component";
-
-
+import { Favourite } from "../../../../components/favourites/favourites.component";
 import star from "../../../../../assets/star"
 import open from "../../../../../assets/open"
 import { Spacer } from "../../../../components/spacer/spacer.component";
 import { RestaurantCard, RestaurantCardCover, Address, Title, Info, Rating, Section, SectionEnd, Icon } from './restaurant-into-card.styles'
+
 
 
 
@@ -28,7 +28,11 @@ export const RestaurantInfoCard = ({ restaurant }) => {
 
   return (
     <RestaurantCard elevation={5}>
-      <RestaurantCardCover key={name} source={{ uri: photos[0] }} />
+      <View>
+        <Favourite restaurant={restaurant}></Favourite>
+        <RestaurantCardCover key={name} source={{ uri: photos[0] }} />
+      </View>
+
       <Info>
         <Text variant="label">{name}</Text>
         <Section>

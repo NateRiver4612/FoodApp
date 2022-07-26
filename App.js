@@ -5,11 +5,13 @@ import { theme } from "./src/infrastructure/theme";
 import { RestaurantProvider } from "./src/services/restaurants/restaurant.context";
 import { LocationProvider } from "./src/services/location/location.context";
 import { AppNavigation } from "./src/infrastructure/navigation/app.navigation";
+import { FavouritesContextProvider } from "./src/services/favourites/favourites.context";
 
 import {
   useFonts as useOswald,
   Oswald_400Regular,
 } from "@expo-google-fonts/oswald";
+
 import { useFonts as useLato, Lato_400Regular } from "@expo-google-fonts/lato";
 
 export default function App() {
@@ -30,7 +32,9 @@ export default function App() {
       <ThemeProvider theme={theme}>
         <LocationProvider>
           <RestaurantProvider>
-            <AppNavigation></AppNavigation>
+            <FavouritesContextProvider>
+              <AppNavigation></AppNavigation>
+            </FavouritesContextProvider>
           </RestaurantProvider>
         </LocationProvider>
       </ThemeProvider>
