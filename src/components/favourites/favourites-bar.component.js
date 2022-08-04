@@ -5,6 +5,7 @@ import { Spacer } from "../spacer/spacer.component";
 import { Text } from "../typography/text.component";
 import { MapCallout } from "../../features/map/components/map-callout.component";
 import { View } from "react-native";
+import { FavouriteItem } from "./favourite-item.component";
 
 const FavouritesWrapper = styled.View`
   padding: 10px;
@@ -37,7 +38,7 @@ export const FavouritesBar = ({ favourites, onNavigate }) => {
                   })
                 }
               >
-                <MapCallout restaurant={restaurant} />
+                <FavouriteItem restaurant={restaurant} />
               </TouchableOpacity>
             </Spacer>
           );

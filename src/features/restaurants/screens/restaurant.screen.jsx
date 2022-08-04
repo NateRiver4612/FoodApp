@@ -1,4 +1,4 @@
-import React, { useState, useContext } from "react";
+import React, { useState, useContext, useEffect } from "react";
 import { RestaurantContext } from "../../../services/restaurants/restaurant.context";
 import { StatusBar, Text, View, SafeAreaView, FlatList, Pressable } from "react-native";
 import styled from "styled-components/native";
@@ -8,6 +8,8 @@ import { SearchBar } from "../components/search/search.component";
 import { Spinner } from "../../../components/utility/spinner.component";
 import { FavouritesBar } from "../../../components/favourites/favourites-bar.component";
 import { FavouritesContext } from "../../../services/favourites/favourites.context";
+import { AuthenticationContext } from "../../../services/authentication/authentication.context";
+import { FadeInView } from "../../../components/animations/fade.animation";
 
 const SafeArea = styled(SafeAreaView)`
   flex: 1;
@@ -29,6 +31,12 @@ export const RestaurantScreen = ({ navigation }) => {
   const { restaurants, isLoading } = useContext(RestaurantContext)
   const [isFavouriteToggle, setFavouriteToggle] = useState(false)
 
+  const { onLogin } = useContext(AuthenticationContext)
+
+  useEffect(() => {
+    onLogin("nateriver@gmail.com", "123456")
+  }, [])
+
   const { favourites } = useContext(FavouritesContext)
 
   const onFavouriteToggle = () => {
@@ -47,7 +55,6 @@ export const RestaurantScreen = ({ navigation }) => {
     )
   }
 
-  const onFavouriteNavigate = () => navigation.navigate
 
   return (
     <SafeArea >
@@ -63,14 +70,17 @@ export const RestaurantScreen = ({ navigation }) => {
               />
             </SearchContainer>
             {
-              isFavouriteToggle && (<FavouritesBar onNavigate={onFavouriteNavigate} favourites={favourites} />)
+              isFavouriteToggle && (<FavouritesBar onNavigate={navigation.navigate} favourites={favourites} />)
             }
-            <RestaurantList
+            <FadeInView>
+              <RestaurantList
 
-              keyExtractor={(item) => item.name}
-              data={restaurants}
-              renderItem={listItem}
-            />
+                keyExtractor={(item) => item.name}
+                data={restaurants}
+                renderItem={listItem}
+              />
+            </FadeInView>
+
           </>
       }
     </SafeArea>

@@ -1,11 +1,9 @@
-import React from "react";
+import React, { useContext, useEffect } from "react";
 import { StatusBar as ExpoStatusBar } from "expo-status-bar";
 import { ThemeProvider } from "styled-components/native";
 import { theme } from "./src/infrastructure/theme";
-import { RestaurantProvider } from "./src/services/restaurants/restaurant.context";
-import { LocationProvider } from "./src/services/location/location.context";
-import { AppNavigation } from "./src/infrastructure/navigation/app.navigation";
-import { FavouritesContextProvider } from "./src/services/favourites/favourites.context";
+import { Navigation } from "./src/infrastructure/navigation/index.navigation";
+import { AuthenticationProvider } from "./src/services/authentication/authentication.context";
 
 import {
   useFonts as useOswald,
@@ -30,13 +28,9 @@ export default function App() {
   return (
     <>
       <ThemeProvider theme={theme}>
-        <LocationProvider>
-          <RestaurantProvider>
-            <FavouritesContextProvider>
-              <AppNavigation></AppNavigation>
-            </FavouritesContextProvider>
-          </RestaurantProvider>
-        </LocationProvider>
+        <AuthenticationProvider>
+          <Navigation></Navigation>
+        </AuthenticationProvider>
       </ThemeProvider>
       <ExpoStatusBar style="dark" />
     </>

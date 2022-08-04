@@ -3,7 +3,7 @@ import { locationRequest, locationTransform } from "./location.service";
 
 export const LocationContext = createContext();
 
-export const LocationProvider = ({ children }) => {
+export const LocationsContextProvider = ({ children }) => {
   const [locationSearch, setLocationSearch] = useState("antwerp");
   const [locationCoordinate, setLocationCoordinate] = useState("");
   const [isLoading, setLoading] = useState(false);
